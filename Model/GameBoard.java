@@ -1,10 +1,15 @@
 package Model;
 
+import Model.Clock.TickListener;
+import Model.Factory.CellFactory;
+
 import java.util.*;
 
-public class GameBoard {
+public class GameBoard implements TickListener {
     // Map als attribuut meegegeven
     private Map<Position, Cell> liveCells;
+    // Lijst van fabrieken (OCP)
+    private List<CellFactory> factories;
 
     // Initialiseren van de map als Hashmap
 
@@ -13,10 +18,13 @@ public class GameBoard {
      * Positie niet op de map?
      * → Vakje automatisch leeg.
      * Bespaart geheugen.
+     *
+     * @param factories lijst van fabrieken voor elk celtype
      */
-    public GameBoard() {
+    public GameBoard(List<CellFactory> factories) {
         // Lege map aanmaken om toe te kunnen voegen
         this.liveCells = new HashMap<>();
+        this.factories = factories;
     }
 
     public void addCell(int x, int y, Cell cell) {
@@ -52,7 +60,6 @@ public class GameBoard {
                     continue; // Volgende stap in de loop
                 }
 
-                // Neighbor op coördinaat (i, j)?
                 Position neighbourPosition = new Position(i, j);
 
                 /** Als cel in map zit
@@ -79,11 +86,11 @@ public class GameBoard {
             int neighbors = countNeighbours(p.getX(), p.getY());
 
             /** Vraagt aan de cel of hij overleeft (die dit intern doorgeeft aan zijn strategie)
-            * Als dat true is:
-            * De survives methode wordt aangeroepen
-            * verhogen van leeftijd met 1
-            * cel toevoegen aan nieuwe generatie
-            */
+             * Als dat true is:
+             * De survives methode wordt aangeroepen
+             * verhogen van leeftijd met 1
+             * cel toevoegen aan nieuwe generatie
+             */
             if (c.survives(neighbors)) {
                 c.incrementAge();
                 nextGeneration.put(p, c); // Stop hem in de nieuwe map
@@ -104,24 +111,28 @@ public class GameBoard {
         for (Position emptyPos : emptyNeighbours) {
             int emptySpotNeighbors = countNeighbours(emptyPos.getX(), emptyPos.getY());
 
-            if (emptySpotNeighbors == 3) {
-                nextGeneration.put(emptyPos, new ConwayCell());
-            } else if (emptySpotNeighbors == 4) {
-                nextGeneration.put(emptyPos, new AlternativeCell());
+            // Vraag elke fabriek of hij een cel wil aanmaken op dit vakje
+            // GameBoard hoeft nooit aangepast te worden bij een nieuw celtype
+            for (CellFactory factory : factories) {
+                if (factory.shouldBeBorn(emptySpotNeighbors)) {
+                    nextGeneration.put(emptyPos, factory.createCell());
+                    break; // Eerste match wint, één cel per vakje
+                }
             }
         }
 
-        // Vervangt het oude bord door het nieuwe
+        // Vervangt het oude bord/generatie door nieuwe
         this.liveCells = nextGeneration;
-    }
-
-
-    public void onTick(long tickNumber) {
-        calculateNextGeneration(); // Elke keer als de klok tikt, bereken nieuwe generatie
     }
 
     // GUI moet weten welke cellen tekenen
     public Map<Position, Cell> getLiveCells() {
         return liveCells;
+    }
+
+    // Verplichte methode die geïmplementeerd moet worden
+    @Override
+    public void onTick(long tickNumber) {
+        calculateNextGeneration();
     }
 }
