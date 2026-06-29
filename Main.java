@@ -1,34 +1,27 @@
 import Model.Factory.AlternativeFactory;
-import Model.Factory.CellFactory;
 import Model.Factory.ConwayFactory;
+import Model.Factory.CellFactory;
 import Model.GameBoard;
-import Model.Stats.StatisticsTracker;
 import Model.Clock.GameClock;
-
+import Controller.GameController;
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        // Maakt een lege lijst aan
+        // Fabrieken maken
+        CellFactory conwayFactory = new ConwayFactory();
+        CellFactory altFactory = new AlternativeFactory();
+
+        // Fabrieken toevoegen aan Arraylist
         ArrayList<CellFactory> factories = new ArrayList<>();
+        factories.add(conwayFactory);
+        factories.add(altFactory);
 
-        /** AANPASSEN: want niet OCP, dus maak het niet meer hardcoded*/
-        // Voegt de fabrieken toe
-        factories.add(new ConwayFactory());
-        factories.add(new AlternativeFactory());
-
-        // Geeft de gevulde lijst aan het bord
+        // Motor aanmaken
         GameBoard board = new GameBoard(factories);
-
-        // Maakt de klok
         GameClock clock = new GameClock();
 
-        // Koppelt de statistieken en het bord aan de klok
-        StatisticsTracker tracker = new StatisticsTracker(board);
-        clock.addListener(tracker);
-        clock.addListener(board);
-
-        // Start
-        clock.start();
+        // Starten
+        new GameController(board, clock, conwayFactory, altFactory);
     }
 }

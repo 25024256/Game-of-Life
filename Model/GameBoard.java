@@ -11,7 +11,9 @@ public class GameBoard implements TickListener {
     // Lijst van fabrieken (OCP)
     private List<CellFactory> factories;
 
-    // Initialiseren van de map als Hashmap
+    // Stelt de grenzen van grid in
+    private final int breedte = 100;
+    private final int hoogte = 100;
 
     /**
      * Alle levende cellen opslaan.
@@ -27,25 +29,37 @@ public class GameBoard implements TickListener {
         this.factories = factories;
     }
 
-    public void addCell(int x, int y, Cell cell) {
-        // Maken label (met x en y)
-        Position positionLabel = new Position(x, y);
-        // Stopt de cel in de map met dat label
-        liveCells.put(positionLabel, cell);
+    // Controleert of een x, y coördinaat binnen ons bord valt
+    private boolean isBinnenGrid(int x, int y) {
+        return x >= 0 && x < breedte && y >= 0 && y < hoogte;
     }
 
+    // Cell toevoegen
+    public void addCell(int x, int y, Cell cell) {
+        // Alleen toevoegen als de muisklik binnen grid valt
+        if (isBinnenGrid(x, y)) {
+            // Maken label (met x en y)
+            Position positionLabel = new Position(x, y);
+            // Stopt de cel in de map met dat label
+            liveCells.put(positionLabel, cell);
+        }
+    }
+
+    // Cell verwijderen
     public void removeCell(int x, int y) {
         Position positionLabel = new Position(x, y);
         // Uit de map halen
         liveCells.remove(positionLabel);
     }
 
+    // Cell ophalen
     public Cell getCell(int x, int y) {
         Position positionLabel = new Position(x, y);
         // Geef de cel terug die bij dit label hoort (of = 'null')
         return liveCells.get(positionLabel);
     }
 
+    // Buren tellen
     public int countNeighbours(int x, int y) {
         int count = 0;
 
@@ -73,6 +87,7 @@ public class GameBoard implements TickListener {
         return count;
     }
 
+    // Berekenen nieuw bord (map, overleeft, geboren)
     public void calculateNextGeneration() {
         // Lege map aanmaken voor volgende ronde + lijst voor lege vakjes
         Map<Position, Cell> nextGeneration = new HashMap<>();
@@ -99,10 +114,15 @@ public class GameBoard implements TickListener {
             // Verzamelen lege vakjes rondom deze levende cel
             for (int i = p.getX() - 1; i <= p.getX() + 1; i++) {
                 for (int j = p.getY() - 1; j <= p.getY() + 1; j++) {
-                    Position buur = new Position(i, j);
-                    if (!liveCells.containsKey(buur)) {
-                        emptyNeighbours.add(buur); // Dit is een leeg vakje
+
+                    // Extra commentaar: Kijk alleen naar lege vakjes die binnen ons grid vallen!
+                    if (isBinnenGrid(i, j)) {
+                        Position buur = new Position(i, j);
+                        if (!liveCells.containsKey(buur)) {
+                            emptyNeighbours.add(buur); // Dit is een leeg vakje
+                        }
                     }
+
                 }
             }
         }
@@ -111,12 +131,12 @@ public class GameBoard implements TickListener {
         for (Position emptyPos : emptyNeighbours) {
             int emptySpotNeighbors = countNeighbours(emptyPos.getX(), emptyPos.getY());
 
-            // Vraag elke fabriek of hij een cel wil aanmaken op dit vakje
+            // Vraagt elke fabriek of hij een cel wil aanmaken op dit vakje
             // GameBoard hoeft nooit aangepast te worden bij een nieuw celtype
             for (CellFactory factory : factories) {
                 if (factory.shouldBeBorn(emptySpotNeighbors)) {
                     nextGeneration.put(emptyPos, factory.createCell());
-                    break; // Eerste match wint, één cel per vakje
+                    break; // Eerste match wint, 1 cel per vakje
                 }
             }
         }
@@ -128,6 +148,11 @@ public class GameBoard implements TickListener {
     // GUI moet weten welke cellen tekenen
     public Map<Position, Cell> getLiveCells() {
         return liveCells;
+    }
+
+    // Maakt het bord helemaal leeg
+    public void clearBoard() {
+        liveCells.clear();
     }
 
     // Verplichte methode die geïmplementeerd moet worden

@@ -2,27 +2,35 @@ package Model.Stats;
 
 import Model.Clock.TickListener;
 import Model.GameBoard;
+import Model.Cell;
+import Model.CellType;
+import View.ControlPanel;
 
 public class StatisticsTracker implements TickListener {
-    /** Luistert naar de klok en vraagt het (game)bord om info*/
-
-    private GameStatistics stats;
     private GameBoard board;
+    private ControlPanel panel;
 
-    public StatisticsTracker(GameBoard board) {
+    // Constructor met parameters
+    public StatisticsTracker(GameBoard board, ControlPanel panel) {
         this.board = board;
-        this.stats = new GameStatistics();
+        this.panel = panel;
     }
 
     @Override
     public void onTick(long tickNumber) {
-        // Bereken nieuwe statistieken bij elke tik
-        int count = board.getLiveCells().size();
-        stats.setLivingCellsCount(count);
-        stats.setGenerationsCount((int) tickNumber);
-    }
+        int conwayCount = 0;
+        int altCount = 0;
 
-    public GameStatistics getStats() {
-        return stats;
+        // Tel alle cellen per type
+        for (Cell cell : board.getLiveCells().values()) {
+            if (cell.getType() == CellType.CONWAY) {
+                conwayCount++;
+            } else {
+                altCount++;
+            }
+        }
+
+        // Stuur ze naar het scherm (ControlPanel)
+        panel.updateStats(tickNumber, conwayCount, altCount);
     }
 }
