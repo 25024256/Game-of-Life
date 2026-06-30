@@ -1,10 +1,10 @@
-package Model.Stats;
+package model.stats;
 
-import Model.Clock.TickListener;
-import Model.GameBoard;
-import Model.Cell;
-import Model.CellType;
-import View.ControlPanel;
+import model.clock.TickListener;
+import model.GameBoard;
+import model.Cell;
+import model.CellType;
+import view.ControlPanel;
 
 public class StatisticsTracker implements TickListener {
     private GameBoard board;

@@ -1,12 +1,12 @@
-package Controller;
+package controller;
 
-import Model.GameBoard;
-import Model.Clock.GameClock;
-import Model.Factory.CellFactory;
-import Model.Stats.StatisticsTracker;
-import View.ControlPanel;
-import View.GridBoardView;
-import View.MainGameWindow;
+import model.GameBoard;
+import model.clock.GameClock;
+import model.factory.CellFactory;
+import model.stats.StatisticsTracker;
+import view.ControlPanel;
+import view.GridBoardView;
+import view.MainGameWindow;
 
 public class GameController {
 

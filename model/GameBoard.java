@@ -1,19 +1,21 @@
-package Model;
+package model;
 
-import Model.Clock.TickListener;
-import Model.Factory.CellFactory;
+import model.clock.TickListener;
+import model.factory.CellFactory;
 
 import java.util.*;
 
 public class GameBoard implements TickListener {
     // Map als attribuut meegegeven
+    /**ENCAPSULATIE: niemand van buitenaf kan een cel in de lijst stoppen
+     * vragen via de public methodes*/
     private Map<Position, Cell> liveCells;
-    // Lijst van fabrieken (OCP)
+    // Lijst van fabrieken
     private List<CellFactory> factories;
 
     // Stelt de grenzen van grid in
-    private final int breedte = 100;
-    private final int hoogte = 100;
+    private final int width = 100;
+    private final int height = 100;
 
     /**
      * Alle levende cellen opslaan.
@@ -30,14 +32,14 @@ public class GameBoard implements TickListener {
     }
 
     // Controleert of een x, y coördinaat binnen ons bord valt
-    private boolean isBinnenGrid(int x, int y) {
-        return x >= 0 && x < breedte && y >= 0 && y < hoogte;
+    private boolean isWithinGrid(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     // Cell toevoegen
     public void addCell(int x, int y, Cell cell) {
         // Alleen toevoegen als de muisklik binnen grid valt
-        if (isBinnenGrid(x, y)) {
+        if (isWithinGrid(x, y)) {
             // Maken label (met x en y)
             Position positionLabel = new Position(x, y);
             // Stopt de cel in de map met dat label
@@ -50,13 +52,6 @@ public class GameBoard implements TickListener {
         Position positionLabel = new Position(x, y);
         // Uit de map halen
         liveCells.remove(positionLabel);
-    }
-
-    // Cell ophalen
-    public Cell getCell(int x, int y) {
-        Position positionLabel = new Position(x, y);
-        // Geef de cel terug die bij dit label hoort (of = 'null')
-        return liveCells.get(positionLabel);
     }
 
     // Buren tellen
@@ -116,7 +111,7 @@ public class GameBoard implements TickListener {
                 for (int j = p.getY() - 1; j <= p.getY() + 1; j++) {
 
                     // Extra commentaar: Kijk alleen naar lege vakjes die binnen ons grid vallen!
-                    if (isBinnenGrid(i, j)) {
+                    if (isWithinGrid(i, j)) {
                         Position buur = new Position(i, j);
                         if (!liveCells.containsKey(buur)) {
                             emptyNeighbours.add(buur); // Dit is een leeg vakje

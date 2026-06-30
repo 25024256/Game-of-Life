@@ -1,4 +1,4 @@
-package Model.Strategy;
+package model.strategy;
 /** Sterven hoeft niet gecodeerd te worden,
  * want shouldSurvive zorgt er al voor dat alles daarbuiten op false wordt gezet
  * en sterft de cel dus automatisch*/

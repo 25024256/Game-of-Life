@@ -1,8 +1,8 @@
-package Model.Factory;
+package model.factory;
 
-import Model.Cell;
-import Model.ConwayCell;
-import Model.Strategy.ConwayRules;
+import model.Cell;
+import model.ConwayCell;
+import model.strategy.ConwayRules;
 
 public class ConwayFactory implements CellFactory {
 

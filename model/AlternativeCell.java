@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import Model.Strategy.AlternativeRules;
+import model.strategy.AlternativeRules;
 
 // Overerven van Cell
 public class AlternativeCell extends Cell{

@@ -1,6 +1,4 @@
-package View;
-
-import Model.Clock.GameClock;
+package view;
 
 import javax.swing.*;
 

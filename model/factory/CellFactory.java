@@ -1,6 +1,6 @@
-package Model.Factory;
+package model.factory;
 
-import Model.Cell;
+import model.Cell;
 
 public interface CellFactory {
     // Maakt nieuwe cel aan

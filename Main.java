@@ -1,9 +1,9 @@
-import Model.Factory.AlternativeFactory;
-import Model.Factory.ConwayFactory;
-import Model.Factory.CellFactory;
-import Model.GameBoard;
-import Model.Clock.GameClock;
-import Controller.GameController;
+import model.factory.AlternativeFactory;
+import model.factory.ConwayFactory;
+import model.factory.CellFactory;
+import model.GameBoard;
+import model.clock.GameClock;
+import controller.GameController;
 import java.util.ArrayList;
 
 public class Main {

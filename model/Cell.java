@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import Model.Strategy.SurvivalStrategy;
+import model.strategy.SurvivalStrategy;
 
 public abstract class Cell {
     // Encapsulatie

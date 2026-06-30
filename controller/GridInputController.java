@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
-import Model.GameBoard;
-import Model.Factory.CellFactory;
-import View.GridBoardView;
+import model.GameBoard;
+import model.factory.CellFactory;
+import view.GridBoardView;
 import javax.swing.SwingUtilities;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

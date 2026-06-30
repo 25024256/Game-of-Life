@@ -1,4 +1,4 @@
-package Model.Stats;
+package model.stats;
 
 public class GameStatistics {
     /**Data Transfer Object → Slaat alle getallen op*/

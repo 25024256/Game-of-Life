@@ -1,8 +1,8 @@
-package Model.Factory;
+package model.factory;
 
-import Model.AlternativeCell;
-import Model.Cell;
-import Model.Strategy.AlternativeRules;
+import model.AlternativeCell;
+import model.Cell;
+import model.strategy.AlternativeRules;
 
 public class AlternativeFactory implements CellFactory {
 

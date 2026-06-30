@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import Model.Strategy.ConwayRules;
+import model.strategy.ConwayRules;
 
 // Overerven van Cell
 public class ConwayCell extends Cell{

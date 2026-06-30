@@ -1,10 +1,10 @@
-package View;
+package view;
 
-import Model.Clock.TickListener;
-import Model.GameBoard;
-import Model.Position;
-import Model.Cell;
-import Model.CellType;
+import model.clock.TickListener;
+import model.GameBoard;
+import model.Position;
+import model.Cell;
+import model.CellType;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;

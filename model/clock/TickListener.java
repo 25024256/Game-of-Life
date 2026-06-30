@@ -1,4 +1,4 @@
-package Model.Clock;
+package model.clock;
 
 public interface TickListener {
     /**

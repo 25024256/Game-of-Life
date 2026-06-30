@@ -1,4 +1,4 @@
-package Model.Strategy;
+package model.strategy;
 
 public interface SurvivalStrategy {
     boolean shouldSurvive(int neighbors);
