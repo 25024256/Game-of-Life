@@ -6,6 +6,8 @@ import model.clock.GameClock;
 import controller.GameController;
 import java.util.ArrayList;
 
+/** Maakt fabrieken, GameBoard en GameClock aan.
+  * Geeft alles door aan GameController*/
 public class Main {
     public static void main(String[] args) {
         // Fabrieken maken

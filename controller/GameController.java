@@ -8,6 +8,8 @@ import view.ControlPanel;
 import view.GridBoardView;
 import view.MainGameWindow;
 
+/** Maakt alle View-onderdelen aan.
+  * Koppelt muisklikken, statistieken en listeners aan de klok*/
 public class GameController {
 
     public GameController(GameBoard board, GameClock clock, CellFactory conway, CellFactory alt) {
